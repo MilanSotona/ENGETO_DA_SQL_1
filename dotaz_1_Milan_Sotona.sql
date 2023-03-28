@@ -8,8 +8,9 @@ WITH t_diff AS (
     SELECT branch_name, 
            `year`,
            branch_avg_wage,
-	       branch_avg_wage - (lag(branch_avg_wage) OVER (PARTITION BY branch_name ORDER BY `year`)) AS difference_CZK,
-           round(((branch_avg_wage - (lag(branch_avg_wage) OVER (PARTITION BY branch_name ORDER BY `year`))) * 100) / (lag(branch_avg_wage) OVER (PARTITION BY branch_name ORDER BY `year`)), 2) AS percent_change
+           branch_avg_wage - (lag(branch_avg_wage) OVER (PARTITION BY branch_name ORDER BY `year`)) AS difference_CZK,
+           round(((branch_avg_wage - (lag(branch_avg_wage) OVER (PARTITION BY branch_name ORDER BY `year`))) * 100) 
+                   / (lag(branch_avg_wage) OVER (PARTITION BY branch_name ORDER BY `year`)), 2) AS percent_change
     FROM t_milan_sotona_project_sql_primary_final
     GROUP BY `year`, branch_name
 )
@@ -31,8 +32,9 @@ WITH t_wages AS (
     SELECT `year`, 
            branch_name, 
            branch_avg_wage,
-	       branch_avg_wage - (lag(branch_avg_wage) OVER (PARTITION BY branch_name ORDER BY `year`)) AS difference,
-	       round(((branch_avg_wage - (lag(branch_avg_wage) OVER (PARTITION BY branch_name ORDER BY `year`))) * 100) / (lag(branch_avg_wage) OVER (PARTITION BY branch_name ORDER BY `year`)), 2) AS percent_change
+           branch_avg_wage - (lag(branch_avg_wage) OVER (PARTITION BY branch_name ORDER BY `year`)) AS difference,
+           round(((branch_avg_wage - (lag(branch_avg_wage) OVER (PARTITION BY branch_name ORDER BY `year`))) * 100) 
+                   / (lag(branch_avg_wage) OVER (PARTITION BY branch_name ORDER BY `year`)), 2) AS percent_change
     FROM t_milan_sotona_project_sql_primary_final
     GROUP BY `year`, branch_name
     ORDER BY branch_name, `year`
