@@ -14,12 +14,15 @@ WITH t1 AS -- kumulace: pro každý rok 1 řádek
 )
 SELECT `year`
        ,avg_price
-       ,round((avg_price - lag(avg_price) OVER (ORDER BY `year`))/lag(avg_price) OVER (ORDER BY `year`)*100,2) AS avg_price_change
+       ,round((avg_price - lag(avg_price) OVER (ORDER BY `year`))/lag(avg_price) OVER (ORDER BY `year`)*100,2) AS avg_price_change 
+       ,round((avg_price - first_value(avg_price) OVER (ORDER BY `year`))/first_value(avg_price) OVER (ORDER BY `year`)*100,2) AS avg_price_change_cumul       
        ,avg_wage
        ,round((avg_wage - lag(avg_wage) OVER (ORDER BY `year`))/lag(avg_wage) OVER (ORDER BY `year`)*100,2) AS avg_wage_change
+       ,round((avg_wage - first_value(avg_wage) OVER (ORDER BY `year`))/first_value(avg_wage) OVER (ORDER BY `year`)*100,2) AS avg_price_wage_cumul       
        ,GDP_person
        ,round((GDP_person - lag(GDP_person) OVER (ORDER BY `year`))/lag(GDP_person) OVER (ORDER BY `year`)*100,2) AS GDP_change              
-FROM t1;
+       ,round((GDP_person - first_value(GDP_person) OVER (ORDER BY `year`))/first_value(GDP_person) OVER (ORDER BY `year`)*100,2) AS GDP_person_cumul       
+       FROM t1;
 
 
 
