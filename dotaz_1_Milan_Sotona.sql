@@ -1,7 +1,9 @@
 /* Otázka 1 
  * Rostou v průběhu let mzdy ve všech odvětvích nebo v některých klesají?
- * Pro odpověď použit SELECT ve verzi A2 od řádku 67
- * verze A1
+ * Pro odpověď použit SELECT ve verzi A2 od řádku 69
+ * verze B od ř. 126 - to byla první verze, ale nahradil jsem verzí A1 a tu potom A2
+ * všechno tady nechávám pro vlastní potřebu = různé možnosti výstupu */
+/* verze A1:
  * Mzdy jsou rozděleny do 19 odvětví.
  * Řešení:
  * SELECT vytvoří tabulku pro všechna odvětví a roky se změnou proti minulému roku (první rok je NULL)
@@ -80,11 +82,11 @@ SELECT `year`
        ,sum(CASE
 	            WHEN difference_CZK >= 0 THEN 1
 	            ELSE 0       	
-            END) AS No_positive
+            END) AS count_positive
        ,sum(CASE
 	            WHEN difference_CZK < 0 THEN 1
 	            ELSE 0       	
-            END) AS No_negative
+            END) AS count_negative
        ,sum(CASE
 	            WHEN difference_CZK >= 0 THEN difference_CZK
 	            ELSE 0       	
@@ -98,22 +100,22 @@ FROM t_diff
 GROUP BY `year`
 ;
 /* VÝSLEDEK:
-year|No_positive|No_negative|CZK_positive|CZK_negative|difference_CZK|
-----+-----------+-----------+------------+------------+--------------+
-2006|          0|          0|           0|           0|              |
-2007|         19|          0|       27659|           0|         27659|
-2008|         19|          0|       33067|           0|         33067|
-2009|         15|          4|       15476|       -1253|         14223|
-2010|         16|          3|        9799|        -673|          9126|
-2011|         15|          4|       12130|        -782|         11348|
-2012|         19|          0|       14585|           0|         14585|
-2013|          8|         11|        2618|      -10587|         -7969|
-2014|         18|          1|       13164|        -185|         12979|
-2015|         18|          1|       14069|        -641|         13428|
-2016|         18|          1|       19482|        -183|         19299|
-2017|         19|          0|       33917|           0|         33917|
-2018|         19|          0|       44938|           0|         44938|
- */
+year|count_positive|count_negative|CZK_positive|CZK_negative|difference_CZK|
+----+--------------+--------------+------------+------------+--------------+
+2006|             0|             0|           0|           0|              |
+2007|            19|             0|       27659|           0|         27659|
+2008|            19|             0|       33067|           0|         33067|
+2009|            15|             4|       15476|       -1253|         14223|
+2010|            16|             3|        9799|        -673|          9126|
+2011|            15|             4|       12130|        -782|         11348|
+2012|            19|             0|       14585|           0|         14585|
+2013|             8|            11|        2618|      -10587|         -7969|
+2014|            18|             1|       13164|        -185|         12979|
+2015|            18|             1|       14069|        -641|         13428|
+2016|            18|             1|       19482|        -183|         19299|
+2017|            19|             0|       33917|           0|         33917|
+2018|            19|             0|       44938|           0|         44938|
+*/
 
 -- =============================================================================================================
 /* Otázka 1 - verze B
